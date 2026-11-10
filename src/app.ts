@@ -5,6 +5,9 @@ import { rateLimit } from 'express-rate-limit';
 import cookieParser from "cookie-parser";
 import config from "./app/config";
 import cors from "cors";
+import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
+import { notFound } from "./app/middleware/notFound";
+import { AuthRoutes } from "./app/module/auth/auth.route";
 
 const app: Application = express();
 
@@ -14,7 +17,7 @@ app.use(helmet());
 // Logger
 app.use(morgan(process.env.NODE_ENV === "production" ? "combined" : "dev"));
 
-// Rate Limiting (limit repeated requests to APIs)
+// Rate Limiting 
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // Limit each IP to 100 requests per window
@@ -51,5 +54,12 @@ app.get("/", (req: Request, res: Response) => {
     message: "Welcome to MediLink!",
   });
 });
+
+
+// API
+app.use('/api/v1/auth', AuthRoutes);
+
+app.use(notFound);
+app.use(globalErrorHandler);
 
 export default app;
