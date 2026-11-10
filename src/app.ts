@@ -3,7 +3,7 @@ import morgan from 'morgan';
 import helmet from "helmet";
 import { rateLimit } from 'express-rate-limit';
 import cookieParser from "cookie-parser";
-import config from "./config";
+import config from "./app/config";
 import cors from "cors";
 
 const app: Application = express();
