@@ -59,6 +59,8 @@ app.get("/", (req: Request, res: Response) => {
 // API
 app.use('/api/v1/auth', AuthRoutes);
 
+
+
 app.use(notFound);
 app.use(globalErrorHandler);
 
